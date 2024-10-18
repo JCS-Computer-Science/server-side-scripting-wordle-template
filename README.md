@@ -94,7 +94,7 @@ activeSessions = {
 - **PR2**: If the user wins or runs out of guesses, the response should include the answer in `wordToGuess`.
 - **PR1**: If no session ID is attached to the request, respond with status code 400 (Bad Request) and an error message as `body.error`.
 - **PR2**: If a session ID is attached but there is no matching game state for that session, respond with status code 404 (Not Found) and an error message as `body.error`.
-- Respond with an error if:
+- Respond with a 400 error if:
     - **PR2**: The guess is not exactly 5 characters long.
     - **EX1**: The guess contains non-letter characters.
     - **EX2**: The guess is not a real english word, verified using a free dictionary API.
@@ -102,7 +102,7 @@ activeSessions = {
 - **PR1**: Parse out the session ID from the request query params, eg. `?sessionID=1234`
 - If the session ID is valid:
     - **PR1**: Resets the current game state, starting a fresh game for the user without changing the session ID.
-    - **PR1**: Responds with the new fresh game state
+    - **PR1**: Responds with the new fresh game state as `body.gamestate`
     - **DV2**: Responds with status code 200
 - **PR1**: If no session ID is attached to the request, respond with status code 400 (Bad Request) and an error message as `body.error`.
 - **PR2**: If a session ID is attached but there is no matching game state for that session, respond with status code 404 (Not Found) and an error message as `body.error`.
@@ -113,15 +113,15 @@ activeSessions = {
     - **DV2**: Only responds with the status code 204
 - **PR1**: If no session ID is attached to the request, respond with status code 400 (Bad Request) and an error message as `body.error`.
 - **PR2**: If a session ID is attached but there is no matching game state for that session, respond with status code 404 (Not Found) and an error message as `body.error`.
-### Optional (not tested) GET /scoreboard:
+### Optional (not covered in tests) GET /scoreboard:
 - **EX1**: Returns the number of games won by each number of guesses taken (1 through 6) and the total number of games lost since the server started.
-### Optional (not tested) GET /hint:
+### Optional (not covered in tests) GET /hint:
 - **PR1**: Parse out the session ID from the request query params, eg. `?sessionID=1234`
 - **EX2**: If the session ID is valid, returns the definition of the current word, retrieved from a free dictionary API.
 - **PR1**: If no session ID is attached to the request, respond with status code 400 (Bad Request) and an error message as `body.error`.
 - **PR2**: If a session ID is attached but there is no matching game state for that session, respond with status code 404 (Not Found) and an error message as `body.error`.
 - **EX2**: Additional requests to /hint provide extra information such as secondary definitions, synonyms, or example sentences where the word is replaced by asterisks (e.g., "The *** was very large").
 
-## Exemplary Level Extensions
+## Additional Exemplary Level Extensions
 - Learn how to implement a database so that game states and the scoreboard persists across server reboots. See **NEDB** for a fairly simple local database library.
 - Modify `index.html` or make your own front-end site to use your server and implement the on-screen keyboard, styling, and animation of the original Wordle site.
