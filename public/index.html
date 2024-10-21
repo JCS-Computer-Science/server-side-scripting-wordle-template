@@ -23,7 +23,7 @@
 
   <div>
     <label for="guess">Make a Guess:</label>
-    <input type="text" id="guess" maxlength="5" placeholder="Enter a 5-letter word">
+    <input type="text" id="guess">
     <button onclick="makeGuess()">Submit Guess</button>
   </div>
 
@@ -33,10 +33,9 @@
   </div>
 
   <script>
-    let sessionID = null;
+    let sessionID = undefined;
 
     async function fetchGameState() {
-      if (!sessionID) return alert('No active session');
       const res = await fetch(`/gamestate?sessionID=${sessionID}`);
       const data = await res.json();
       if (res.ok) {
@@ -61,7 +60,6 @@
     }
 
     async function resetGame() {
-      if (!sessionID) return alert('No active session');
       const res = await fetch(`/reset?sessionID=${sessionID}`, { method: 'DELETE' });
       const data = await res.json();
       if (res.ok) {
@@ -72,7 +70,7 @@
     }
 
     async function deleteGame() {
-      if (!sessionID) return alert('No active session');
+
       const res = await fetch(`/delete?sessionID=${sessionID}`, { method: 'DELETE' });
       if (res.ok) {
         sessionID = null;
@@ -87,12 +85,7 @@
 
     async function makeGuess() {
       const guess = document.getElementById('guess').value;
-      if (guess.length !== 5) {
-        return alert('Guess must be exactly 5 letters');
-      }
-      if (!sessionID) {
-        return alert('No active session');
-      }
+     
       
       const res = await fetch('/guess', {
         method: 'POST',
