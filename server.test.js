@@ -1,7 +1,8 @@
 // Do not modify this file
 const uuid = require('uuid');
 const request = require('supertest');
-const server = require('./server'); // Students' server implementation
+// const server = require('./server'); // Students' server implementation
+const server = require('./solution'); // Students' server implementation
 
 describe('Wordle Server', () => {
 
@@ -69,7 +70,7 @@ describe('Wordle Server', () => {
 
         beforeAll(async () => {
             let agent = request.agent(server)
-            let res = await agent.post('/newgame?answer=apple');
+            let res = await agent.get('/newgame?answer=apple');
             let sessionID=res.body.sessionID
             // Make a guess
             guessRes = await agent
@@ -197,7 +198,7 @@ describe('Wordle Server', () => {
         let sessionID
         beforeAll(async () => {
             agent = request.agent(server)
-           let res= await agent.post('/newgame?answer=apple')
+           let res= await agent.get('/newgame?answer=apple')
            sessionID=res.body.sessionID
         })
         describe("doesn't accept short guesses", () => {
@@ -226,7 +227,7 @@ describe('Wordle Server', () => {
         let sessionID
         beforeAll(async () => {
             agent = request.agent(server)
-            let res = await agent.post('/newgame?answer=appl')
+            let res = await agent.get('/newgame?answer=appl')
             sessionID=res.body.sessionID
         })
         describe("doesn't accept numbers", () => {
@@ -258,7 +259,7 @@ describe('Wordle Server', () => {
         let checkRes
         beforeAll(async () => {
             let agent = request.agent(server)
-            let res = await agent.post('/newgame?answer=apple');
+            let res = await agent.get('/newgame?answer=apple');
             let sessionID=res.body.sessionID
             await agent.post('/guess').send({ guess: 'phase',sessionID })
             resetRes = await agent.delete(`/reset?sessionID=${sessionID}`)
@@ -295,7 +296,7 @@ describe('Wordle Server', () => {
         beforeAll(async () => {
             const badID = uuid.v4();
             let agent = request.agent(server)
-            let res = await agent.post('/newgame?answer=apple');
+            let res = await agent.get('/newgame?answer=apple');
             await agent.post('/guess').send({ guess: 'phase', sessionID: res.body.sessionID })
             delRes=await agent.delete(`/reset?sessionID=${badID}`)
         })
@@ -310,7 +311,7 @@ describe('Wordle Server', () => {
         let finalres
         beforeAll(async () => {
             let agent = request.agent(server)
-            let ogRes = await agent.post('/newgame?answer=apple');
+            let ogRes = await agent.get('/newgame?answer=apple');
             sessionID=ogRes.body.sessionID
             await agent.post('/guess').send({ guess: 'phase' , sessionID})
             delRes = await agent.delete(`/delete?sessionID=${sessionID}`)
@@ -340,7 +341,7 @@ describe('Wordle Server', () => {
         beforeAll(async () => {
             const badID = uuid.v4();
             let agent = request.agent(server)
-            let ogres = await agent.post('/newgame?answer=apple');
+            let ogres = await agent.get('/newgame?answer=apple');
             let sessionID = ogres.body.sessionID
             await agent.post('/guess').send({ guess: 'phase', sessionID })
             res=await agent.delete(`/delete?sessionID=${badID}`)

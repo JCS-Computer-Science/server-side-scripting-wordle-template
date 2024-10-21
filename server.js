@@ -1,6 +1,8 @@
 const express = require("express");
 const uuid = require("uuid")
 const server = express();
+server.use(express.json())
+
 
 //All your code goes here
 let activeSessions={}
