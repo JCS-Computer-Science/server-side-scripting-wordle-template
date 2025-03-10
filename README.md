@@ -1,7 +1,7 @@
 # Wordle Clone Server Assignment
 
 ## Objective: 
-Build a server-side version of the popular Wordle game using Express.js, with game states tracked using cookies.
+Build a server-side version of the popular Wordle game using Express.js.
 
 ## Game State:
 Each session should have an associated game state object with:
