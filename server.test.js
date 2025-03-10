@@ -324,7 +324,7 @@ describe('Wordle Server', () => {
        
     });
 
-    describe('DELETE /delete returns 400 if no session cookie is provided', () => {
+    describe('DELETE /delete returns 400 if no session ID is provided', () => {
         let res;
         beforeAll(async () => {
             let agent = request.agent(server)
@@ -335,7 +335,7 @@ describe('Wordle Server', () => {
         test('responds with an error message', () => expect(res.body.error).toBeDefined())
     });
 
-    describe('DELETE /delete returns 404 if session cookie does not match any active session', () => {
+    describe('DELETE /delete returns 404 if session ID does not match any active session', () => {
         let res;
         
         beforeAll(async () => {
